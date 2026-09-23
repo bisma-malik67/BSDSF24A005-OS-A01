@@ -31,3 +31,11 @@ $(OBJDIR)/%.o: %.c
 
 clean:
 	rm -f $(OBJDIR)/*.o $(STATICTARGET) $(DYNAMICTARGET) $(STATICLIB) $(DYNAMICLIB)
+install: $(STATICTARGET) $(DYNAMICTARGET)
+	cp $(STATICTARGET) /usr/local/bin/client
+	sudo mkdir -p /usr/local/share/man/man3
+	cp ../man/man3/client.1 /usr/local/share/man/man3/
+	mandb > /dev/null 2>&1
+uninstall:
+	rm -f /usr/local/bin/client
+	rm -f /usr/local/share/man/man3/client.1
