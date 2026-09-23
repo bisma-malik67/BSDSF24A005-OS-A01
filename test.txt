@@ -1,0 +1,4 @@
+Hello world this is a test file
+This line has the word hello in it
+Another normal line here
+Testing search functionality
