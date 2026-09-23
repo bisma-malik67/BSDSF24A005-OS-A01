@@ -2,17 +2,22 @@ CC = gcc
 CFLAGS = -I../include
 OBJDIR = ../obj
 BINDIR = ../bin
-SRCS = main.c mystrfunctions.c myfilefunctions.c
-OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
-TARGET = $(BINDIR)/client
+LIBDIR = ../lib
+
+LIBOBJS = $(OBJDIR)/mystrfunctions.o $(OBJDIR)/myfilefunctions.o
+LIBTARGET = $(LIBDIR)/libmyutils.a
+TARGET = $(BINDIR)/client_static
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET)
+$(TARGET): $(OBJDIR)/main.o $(LIBTARGET)
+	$(CC) $(OBJDIR)/main.o -L$(LIBDIR) -lmyutils -o $(TARGET)
+
+$(LIBTARGET): $(LIBOBJS)
+	ar rcs $(LIBTARGET) $(LIBOBJS)
 
 $(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJDIR)/*.o $(TARGET)
+	rm -f $(OBJDIR)/*.o $(TARGET) $(LIBTARGET)
